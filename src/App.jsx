@@ -8,6 +8,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Navbar from "./components/Navbar";
 import { ToastContainer, toast } from 'react-toastify';
 import PrivateRoute from "./components/PrivateRoute";
+import Category from "./pages/Category";
+import CreateLisitngs from "./pages/CreateLisitngs";
 
 const App = () => {
   return (
@@ -16,12 +18,15 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Explore />} />
           <Route path="/offers" element={<Offers />} />
+          {/* categoryName is the parameter its in the category.jsx */}
+          <Route path="/category/:categoryName" element={<Category />}/>
           <Route path="/profile" element={<PrivateRoute />}>
               <Route path="/profile" element={<Profile /> } />
           </Route>
           <Route path="/sign-in" element={<Signin />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+           <Route path="/create-listing" element={<CreateLisitngs />} />
         </Routes>
         <Navbar />
       </Router>
