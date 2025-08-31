@@ -11,7 +11,12 @@ import {
 } from "firebase/storage";
 import { db } from "../firebase.config";
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection, serverTimestamp, Timestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
 
 const API_KEY = import.meta.env.VITE_GEOCODE_API_KEY;
 
@@ -116,7 +121,6 @@ const CreateLisitngs = () => {
     } else {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
-      location = address;
     }
 
     //Store images in firebase
@@ -146,51 +150,47 @@ const CreateLisitngs = () => {
             }
           },
           (error) => {
-            reject(error)
+            reject(error);
           },
           () => {
             // Handle successful uploads on complete
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              resolve( downloadURL);
+              resolve(downloadURL);
             });
           }
         );
       });
     };
 
-    const imageUrls =  await Promise.all(
-        [...images].map((image) => storeImage(image))
+    const imageUrls = await Promise.all(
+      [...images].map((image) => storeImage(image))
     ).catch(() => {
-        setLoading(false)
-        toast.error('Images not uploaded')
-        return
-    })
+      setLoading(false);
+      toast.error("Images not uploaded");
+      return;
+    });
 
-    console.log(imageUrls)
+    console.log(imageUrls);
 
     const formDataCopy = {
-        ...formData,
-        imageUrls,
-        geolocation,
-        timestamp: serverTimestamp()
-    }
+      ...formData,
+      imageUrls,
+      geolocation,
+      timestamp: serverTimestamp(),
+    };
 
-    delete formDataCopy.images
-    delete formDataCopy.address
-    location && (formDataCopy.location = location) 
-    !formDataCopy.offer && delete formDataCopy.discountedPrice
+    formDataCopy.location = address;
+    delete formDataCopy.images;
+    delete formDataCopy.address;
+    !formDataCopy.offer && delete formDataCopy.discountedPrice;
 
-    const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
+    const docRef = await addDoc(collection(db, "listings"), formDataCopy);
 
     setLoading(false);
 
-    toast.success("Listing saved!")
-    navigate(`/category/${formDataCopy.type}/${docRef.id}`)
-
-    
-
-
+    toast.success("Listing saved!");
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   };
 
   const onMutate = (e) => {
