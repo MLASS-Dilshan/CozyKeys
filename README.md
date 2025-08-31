@@ -20,7 +20,7 @@ CozyKeys is a mobile-first house marketplace platform built with React and Fireb
 
 🛠️ Tech Stack
 
-Frontend: React (Hooks, Context API) + Tailwind CSS (or your styling choice)
+Frontend: React
 
 Backend & Database: Firebase (Auth, Firestore, Storage, Hosting)
 
