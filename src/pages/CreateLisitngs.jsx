@@ -73,13 +73,11 @@ const CreateLisitngs = () => {
         return
     }
 
-    console.log("images:", formData.images, "length:", formData.images?.length)
-
-    // if(images.length > 6) {
-    //     setLoading(false)
-    //     toast.error("Max 6 images!")
-    //     return
-    // }
+    if(images.length > 6) {
+        setLoading(false)
+        toast.error("Max 6 images!")
+        return
+    }
 
     let geolocation =  {}
     let location 
@@ -133,7 +131,7 @@ const CreateLisitngs = () => {
 
     //Text/Booleans/numbers
 
-    if(!e.target.file) {
+    if(!e.target.files) {
         setFormData((prevState) => ({
             ...prevState,
             [e.target.id] : boolean ?? e.target.value
