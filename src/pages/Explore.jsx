@@ -26,7 +26,7 @@ const Explore = () => {
 
           <Link to='/category/sale'>
             <img src={sellCategoryImage} alt='sell' className='exploreCategoryImg'/>
-            <p className='exploreCategoryName'>Places for rent</p>
+            <p className='exploreCategoryName'>Places for sale</p>
           </Link>
         </div>
       </main>

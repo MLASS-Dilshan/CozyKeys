@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { db } from "../firebase.config";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
+import ListingItem from "../components/ListingItem";
 
 const Category = () => {
   const [listings, setListings] = useState(null);
@@ -59,6 +60,7 @@ const Category = () => {
       }
     };
 
+    // console.log("Current category param:", params.categoryName);
     fetchListings();
   }, [params.categoryName]);
 
@@ -66,7 +68,7 @@ const Category = () => {
     <div className="category">
       <header>
         <p className="pageHeader">
-          {params.categoryName === "rent"
+          {params.categoryName?.toLowerCase() === "rent"
             ? "Places for rent"
             : "Places for sale"}
         </p>
@@ -76,13 +78,17 @@ const Category = () => {
         <Spinner />
       ) : listings && listings.length > 0 ? (
         <>
-            <main>
-                <ul className="categoryListings">
-                    {listings.map((listing) => (
-                        <h3>{listing.data.name}</h3>
-                    ))}
-                </ul>
-            </main>
+          <main>
+            <ul className="categoryListings">
+              {listings.map((listing) => (
+                <ListingItem
+                  listing={listing.data}
+                  id={listing.id}
+                  key={listing.id}
+                />
+              ))}
+            </ul>
+          </main>
         </>
       ) : (
         <p>No listings for {params.categoryName}</p>
