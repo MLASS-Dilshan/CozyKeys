@@ -11,6 +11,7 @@ import {
 } from "firebase/storage";
 import { db } from "../firebase.config";
 import { v4 as uuidv4 } from "uuid";
+import { addDoc, collection, serverTimestamp, Timestamp } from "firebase/firestore";
 
 const API_KEY = import.meta.env.VITE_GEOCODE_API_KEY;
 
@@ -158,7 +159,7 @@ const CreateLisitngs = () => {
       });
     };
 
-    const imgUrls =  await Promise.all(
+    const imageUrls =  await Promise.all(
         [...images].map((image) => storeImage(image))
     ).catch(() => {
         setLoading(false)
@@ -166,11 +167,30 @@ const CreateLisitngs = () => {
         return
     })
 
-    console.log(imgUrls)
+    console.log(imageUrls)
+
+    const formDataCopy = {
+        ...formData,
+        imageUrls,
+        geolocation,
+        timestamp: serverTimestamp()
+    }
+
+    delete formDataCopy.images
+    delete formDataCopy.address
+    location && (formDataCopy.location = location) 
+    !formDataCopy.offer && delete formDataCopy.discountedPrice
+
+    const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
 
     setLoading(false);
 
-    console.log(formData);
+    toast.success("Listing saved!")
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`)
+
+    
+
+
   };
 
   const onMutate = (e) => {
