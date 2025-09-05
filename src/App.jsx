@@ -6,12 +6,13 @@ import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import Navbar from "./components/Navbar";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import PrivateRoute from "./components/PrivateRoute";
 import Category from "./pages/Category";
 import CreateLisitngs from "./pages/CreateLisitngs";
 import Listings from "./pages/Listings";
 import Contact from "./pages/Contact";
+import EditListing from "./pages/EditListing";
 
 const App = () => {
   return (
@@ -21,16 +22,20 @@ const App = () => {
           <Route path="/" element={<Explore />} />
           <Route path="/offers" element={<Offers />} />
           {/* categoryName is the parameter its in the category.jsx */}
-          <Route path="/category/:categoryName" element={<Category />}/>
+          <Route path="/category/:categoryName" element={<Category />} />
           <Route path="/profile" element={<PrivateRoute />}>
-              <Route path="/profile" element={<Profile /> } />
+            <Route path="/profile" element={<Profile />} />
           </Route>
           <Route path="/sign-in" element={<Signin />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-           <Route path="/create-listing" element={<CreateLisitngs />} />
-           <Route path="/category/:categoryName/:listingId" element={<Listings />}/>
-           <Route path="/contact/:landlordId" element = {<Contact />}/>
+          <Route path="/create-listing" element={<CreateLisitngs />} />
+          <Route path="/edit-listing/:listingId" element={<EditListing />} />
+          <Route
+            path="/category/:categoryName/:listingId"
+            element={<Listings />}
+          />
+          <Route path="/contact/:landlordId" element={<Contact />} />
         </Routes>
         <Navbar />
       </Router>
