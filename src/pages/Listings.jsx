@@ -1,0 +1,40 @@
+import { getAuth } from "firebase/auth"
+import { doc, getDoc } from "firebase/firestore"
+import { useEffect, useState } from "react"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { db } from "../firebase.config"
+import Spinner from "../components/Spinner"
+import shareIcon from "../assets/svg/shareIcon.svg"
+
+const Listings = () => {
+
+    const [listing, setListing] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [shareLinkCopied, setShareLinkCopied] = useState(false)
+
+    const navigate = useNavigate()
+    const params = useParams()
+    const auth = getAuth()
+
+    useEffect(() => {
+        const fetchListing = async() => {
+            const docRef = doc(db, 'listings', params.listingId)
+            const docSnap = await getDoc(docRef)
+
+            if(docSnap.exists()) {
+                console.log(docSnap.data())
+                setListing(docSnap.data())
+                setLoading(false)
+            }
+        }
+
+        fetchListing()
+    },[navigate, params.listingId])
+
+
+  return (
+    <div>Listings</div>
+  )
+}
+
+export default Listings
